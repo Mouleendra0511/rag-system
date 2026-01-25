@@ -1,23 +1,32 @@
 import { motion } from 'framer-motion';
 import { FileText, MessageSquare, Settings, Database, Activity } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
 interface SidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   documentCount: number;
   indexedCount: number;
 }
-
-const navItems = [
-  { id: 'chat', label: 'Chat', icon: MessageSquare },
-  { id: 'documents', label: 'Documents', icon: FileText },
-  { id: 'settings', label: 'Settings', icon: Settings },
-];
-
-export function Sidebar({ activeTab, onTabChange, documentCount, indexedCount }: SidebarProps) {
-  return (
-    <aside className="w-64 h-screen bg-sidebar border-r border-sidebar-border flex flex-col">
+const navItems = [{
+  id: 'chat',
+  label: 'Chat',
+  icon: MessageSquare
+}, {
+  id: 'documents',
+  label: 'Documents',
+  icon: FileText
+}, {
+  id: 'settings',
+  label: 'Settings',
+  icon: Settings
+}];
+export function Sidebar({
+  activeTab,
+  onTabChange,
+  documentCount,
+  indexedCount
+}: SidebarProps) {
+  return <aside className="w-64 h-screen bg-sidebar border-r border-sidebar-border flex flex-col">
       <div className="p-6 border-b border-sidebar-border">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center shadow-glow">
@@ -31,31 +40,17 @@ export function Sidebar({ activeTab, onTabChange, documentCount, indexedCount }:
       </div>
 
       <nav className="flex-1 p-4 space-y-1">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = activeTab === item.id;
-          
-          return (
-            <button
-              key={item.id}
-              onClick={() => onTabChange(item.id)}
-              className={cn(
-                "w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
-                isActive
-                  ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
-              )}
-            >
+        {navItems.map(item => {
+        const Icon = item.icon;
+        const isActive = activeTab === item.id;
+        return <button key={item.id} onClick={() => onTabChange(item.id)} className={cn("w-full items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 flex flex-row", isActive ? "bg-sidebar-accent text-sidebar-accent-foreground" : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground")}>
               <Icon className="w-5 h-5" />
               {item.label}
-              {item.id === 'documents' && documentCount > 0 && (
-                <span className="ml-auto px-2 py-0.5 text-xs rounded-full bg-primary/20 text-primary">
+              {item.id === 'documents' && documentCount > 0 && <span className="ml-auto px-2 py-0.5 text-xs rounded-full bg-primary/20 text-primary">
                   {documentCount}
-                </span>
-              )}
-            </button>
-          );
-        })}
+                </span>}
+            </button>;
+      })}
       </nav>
 
       <div className="p-4 border-t border-sidebar-border">
@@ -80,6 +75,5 @@ export function Sidebar({ activeTab, onTabChange, documentCount, indexedCount }:
           </div>
         </div>
       </div>
-    </aside>
-  );
+    </aside>;
 }
