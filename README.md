@@ -1,73 +1,106 @@
-# Welcome to your Lovable project
+# Multimodal RAG System
 
-## Project info
+A full-stack web UI for a local Multimodal RAG (Retrieval-Augmented Generation) system using Ollama.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Frontend (This Project)
 
-## How can I edit this code?
+Built with React, TypeScript, and Tailwind CSS. Features:
 
-There are several ways of editing your application.
+- **Document Upload**: Drag & drop for PDF, DOCX, TXT, and images
+- **Chat Interface**: Real-time streaming responses with citations
+- **Citation Viewer**: Inspect source chunks with relevance scores
+- **Settings Panel**: Configure models, retrieval, and chunking parameters
 
-**Use Lovable**
+## Backend Requirements
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+The frontend connects to a FastAPI backend running on `http://localhost:8000`. You'll need to set up:
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+```bash
+# Install Ollama
+curl -fsSL https://ollama.com/install.sh | sh
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+# Pull required models
+ollama pull llama3
+ollama pull nomic-embed-text
 ```
 
-**Edit a file directly in GitHub**
+### FastAPI Backend Structure
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Create a Python backend with these modules:
 
-**Use GitHub Codespaces**
+```
+backend/
+├── main.py              # FastAPI app with endpoints
+├── ingestion/
+│   ├── loader.py        # Document loaders (PDF, DOCX, TXT, images)
+│   ├── ocr.py           # OCR extraction (pytesseract/EasyOCR)
+│   └── table_parser.py  # Table extraction (camelot/tabula)
+├── chunking/
+│   └── chunker.py       # Smart chunking (400-600 tokens, 10-20% overlap)
+├── embeddings/
+│   └── embedder.py      # Ollama nomic-embed-text integration
+├── retrieval/
+│   ├── vector_store.py  # FAISS vector store
+│   └── reranker.py      # Cross-encoder reranking
+├── generation/
+│   └── ollama.py        # Ollama llama3 generation
+└── utils/
+    └── config.py        # Configuration management
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### API Endpoints
 
-## What technologies are used for this project?
+```python
+# POST /upload - Upload and process document
+# GET /documents - List all documents
+# DELETE /documents/{id} - Delete document
+# POST /query - Query with streaming response
+```
 
-This project is built with:
+### Key Dependencies
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```bash
+pip install fastapi uvicorn python-multipart
+pip install langchain faiss-cpu sentence-transformers
+pip install pypdf python-docx pytesseract pillow
+pip install ollama httpx
+```
 
-## How can I deploy this project?
+### Running the Backend
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+```bash
+cd backend
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
 
-## Can I connect a custom domain to my Lovable project?
+## Configuration
 
-Yes, you can!
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `topK` | 5 | Number of chunks to retrieve |
+| `similarityThreshold` | 0.3 | Minimum similarity score |
+| `chunkSize` | 500 | Target tokens per chunk |
+| `chunkOverlap` | 50 | Overlap between chunks |
+| `model` | llama3 | Ollama LLM model |
+| `embeddingModel` | nomic-embed-text | Embedding model |
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Performance
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- **Target response time**: < 4 seconds
+- **Scalability**: 1000+ documents with FAISS
+- **Processing**: Local-only, no external API calls
+
+---
+
+## Lovable Project Info
+
+Built with Vite, TypeScript, React, shadcn-ui, and Tailwind CSS.
+
+To run locally:
+
+```bash
+npm install
+npm run dev
+```
