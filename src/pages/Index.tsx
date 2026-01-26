@@ -12,6 +12,7 @@ type Tab = 'chat' | 'documents' | 'settings';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState<Tab>('chat');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const {
     documents,
     messages,
@@ -37,6 +38,8 @@ const Index = () => {
         onTabChange={(tab) => setActiveTab(tab as Tab)}
         documentCount={documents.length}
         indexedCount={indexedCount}
+        isOpen={sidebarOpen}
+        onToggle={() => setSidebarOpen(!sidebarOpen)}
       />
 
       {/* Main Content */}
