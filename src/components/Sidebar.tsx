@@ -65,9 +65,9 @@ export function Sidebar({
             animate={{ x: 0 }}
             exit={{ x: -256 }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed lg:relative w-64 h-screen bg-sidebar border-r border-sidebar-border flex flex-col z-50"
+            className="fixed lg:relative w-64 h-screen glass-strong flex flex-col z-50"
           >
-            <div className="p-6 border-b border-sidebar-border">
+            <div className="p-6 border-b border-border/30">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center shadow-glow">
                   <Database className="w-5 h-5 text-primary-foreground" />
@@ -112,8 +112,8 @@ export function Sidebar({
               })}
             </nav>
 
-            <div className="p-4 border-t border-sidebar-border">
-              <div className="p-4 rounded-lg bg-muted/50">
+            <div className="p-4 border-t border-border/30">
+              <div className="p-4 rounded-lg glass">
                 <div className="flex items-center gap-2 mb-3">
                   <Activity className="w-4 h-4 text-primary" />
                   <span className="text-sm font-medium text-foreground">System Status</span>
