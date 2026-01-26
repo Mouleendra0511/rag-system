@@ -28,6 +28,22 @@ export function Sidebar({
 }: SidebarProps) {
   return (
     <>
+      {/* Toggle button - always visible, highest z-index */}
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={(e) => {
+          e.stopPropagation();
+          onToggle();
+        }}
+        className={cn(
+          "fixed top-4 z-[60] transition-all duration-300 bg-background/80 backdrop-blur-sm border border-border shadow-sm hover:bg-accent",
+          isOpen ? "left-[216px]" : "left-4"
+        )}
+      >
+        {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+      </Button>
+
       {/* Mobile/Tablet overlay */}
       <AnimatePresence>
         {isOpen && (
@@ -40,19 +56,6 @@ export function Sidebar({
           />
         )}
       </AnimatePresence>
-
-      {/* Toggle button - always visible */}
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={onToggle}
-        className={cn(
-          "fixed top-4 z-50 transition-all duration-300",
-          isOpen ? "left-[216px] lg:left-[216px]" : "left-4"
-        )}
-      >
-        {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-      </Button>
 
       {/* Sidebar */}
       <AnimatePresence>
