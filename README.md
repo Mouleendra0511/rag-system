@@ -94,7 +94,7 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
 ---
 
-## Lovable Project Info
+## Project Info
 
 Built with Vite, TypeScript, React, shadcn-ui, and Tailwind CSS.
 
