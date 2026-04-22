@@ -5,7 +5,7 @@ from rag.faiss_store import search
 
 # Configure Groq API (Free tier, no credit card required)
 # Get your API key from: https://console.groq.com/keys
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "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")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "get your api")
 GROQ_BASE_URL = "https://api.groq.com/openai/v1"
 
 # Available free models on Groq:
