@@ -28,7 +28,7 @@ ollama pull nomic-embed-text
 
 ### FastAPI Backend Structure
 
-Create a Python backend with these modules:
+Created a Python backend with these modules:
 
 ```
 backend/
